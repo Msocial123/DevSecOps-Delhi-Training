@@ -3,10 +3,10 @@ pipeline {
 
     environment {
         // Set environment variables for SonarQube connection
-        SONARQUBE_SERVER = 'Sonar_Server'
+        SONARQUBE_SERVER = 'SonarQube-Server'
         SONAR_TOKEN = credentials('Sonar-Token')  // Assuming you have stored the token in Jenkins credentials
         // Specify the full path to SonarScanner manually
-        SONAR_SCANNER_PATH = '/opt/sonar-scanner/bin/sonar-scanner'  // Replace with the actual path to SonarScanner on your machine
+        #SONAR_SCANNER_PATH = '/opt/sonar-scanner/bin/sonar-scanner'  // Replace with the actual path to SonarScanner on your machine
         // Define Sonar project properties
         SONAR_PROJECT_KEY = 'maven-web-application'  // Replace with your own unique project key
         SONAR_PROJECT_NAME = 'Maven-Web-Application'  // Replace with your project name
@@ -139,3 +139,19 @@ Configuration Commands :
    70  sudo nano /etc/profile
    71  /opt/sonar-scanner/bin/sonar-scanner
    72  history
+
+
+
+
+trivy image --format table -o report.txt <image-name>
+trivy image --format json -o report.json <image-name>
+trivy image <image-name>
+trivy image --severity HIGH,CRITICAL <image-name>
+
+
+Docker Scout :
+
+docker scout compare <image1> <image2>
+
+docker scout cves <image-name> > scout-report.txt
+
