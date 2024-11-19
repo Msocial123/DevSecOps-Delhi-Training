@@ -1,0 +1,141 @@
+pipeline {
+    agent any
+
+    environment {
+        // Set environment variables for SonarQube connection
+        SONARQUBE_SERVER = 'Sonar_Server'
+        SONAR_TOKEN = credentials('Sonar-Token')  // Assuming you have stored the token in Jenkins credentials
+        // Specify the full path to SonarScanner manually
+        SONAR_SCANNER_PATH = '/opt/sonar-scanner/bin/sonar-scanner'  // Replace with the actual path to SonarScanner on your machine
+        // Define Sonar project properties
+        SONAR_PROJECT_KEY = 'maven-web-application'  // Replace with your own unique project key
+        SONAR_PROJECT_NAME = 'Maven-Web-Application'  // Replace with your project name
+        SONAR_PROJECT_VERSION = '1.0.0'  // You can change this to match your version
+    }
+
+    stages {
+        stage('Checkout Code') {
+            steps {
+                // Explicitly clone the Git repository
+                echo 'Cloning the GitHub repository...'
+                git url: 'https://github.com/Msocial123/maven-web-application.git', branch: 'master'
+            }
+        }
+        
+        stage('Code Quality Analysis') {
+            steps {
+                script {
+                    // Run SonarQube analysis with additional properties
+                    withSonarQubeEnv(SONARQUBE_SERVER) {
+                        sh """
+                            ${SONAR_SCANNER_PATH} \
+                            -Dsonar.projectKey=${SONAR_PROJECT_KEY} \
+                            -Dsonar.projectName=${SONAR_PROJECT_NAME} \
+                            -Dsonar.projectVersion=${SONAR_PROJECT_VERSION} \
+                            -Dsonar.login=${SONAR_TOKEN}
+                        """
+                    }
+                }
+            }
+        }
+        
+        stage('Quality Gate') {
+            steps {
+                script {
+                    // Wait for SonarQube quality gate status
+                    def qualityGate = waitForQualityGate()
+                    if (qualityGate.status != 'OK') {
+                        error "SonarQube Quality Gate failed! Code quality is not satisfactory."
+                    }
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            // Clean up or notify users after the build completes
+            echo "Build complete."
+        }
+    }
+}
+
+
+
+Sonar-Token,Sonar_Server
+sqa_5b6261402a6ca288ceb3a0ea2c35b6f980cd6412
+
+Configuration Commands :
+
+    1  sudo dnf install java-17-amazon-corretto -y
+    2  java -version
+    3  ssudo wget -O /etc/yum.repos.d/jenkins.repo     https://pkg.jenkins.io/redhat-stable/jenkins.repo
+    4  sudo wget -O /etc/yum.repos.d/jenkins.repo     https://pkg.jenkins.io/redhat-stable/jenkins.repo
+    5  sudo rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key
+    6  sudo dnf install jenkins -y
+    7  sudo systemctl enable jenkins
+    8  sudo systemctl start jenkins
+    9  systemctl status jenkins
+   10  ps -ef | grep port
+   11  ps -ef | grep port 80
+   12  ps -ef | grep 80
+   13  cat /var/lib/jenkins/secrets/initialAdminPassword
+   14  find /usr/lib/jvm/java-1.8* | head -n 3
+   15  find /usr/lib/jvm/java-17* | head -n 3
+   16  vi /etc/profile.d/jdk.sh
+   17  source /etc/profile.d/jdk.sh
+   18  echo $JAVA_HOME
+   19  yum install git -y
+   20  cd /var/lib/jenkins/workspace/CheckCodeQuality
+   21  ls
+   22  sonar-scanner -v
+   23  clear
+   24  sudo yum update -y
+   25  sudo amazon-linux-extras enable corretto8
+   26  sudo yum install -y java-1.8.0-amazon-corretto
+   27  java -version
+   28  sudo update-alternatives
+   29  sudo update-alternatives --list
+   30  sudo update-alternatives --config java
+   31  java -version
+   32  sudo update-alternatives --config java
+   33  clear
+   34  wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip
+   35  ls
+   36  unzip sonar-scanner-cli-5.0.1.3006-linux.zip
+   37  clear
+   38  sudo mv sonar-scanner-<VERSION>-linux /opt/sonar-scanner
+   39  sudo mv sonar-scanner-5.0.1.3006-linux /opt/sonar-scanner
+   40  sudo nano /etc/profile
+   41  source /etc/profile
+   42  sonar-scanner -v
+   43  sudo nano /opt/sonar-scanner/conf/sonar-scanner.properties
+   44  sonar-scanner   -Dsonar.projectKey=maven-web-application   -Dsonar.sources=.   -Dsonar.host.url=http://3.111.187.45:9000/
+   45    -Dsonar.login=sqa_5b6261402a6ca288ceb3a0ea2c35b6f980cd6412
+   46  sonar-scanner   -Dsonar.projectKey=maven-web-application   -Dsonar.sources=.   -Dsonar.host.url=http://3.111.187.45:9000/
+   47    -Dsonar.login=Sonar-Token
+   48  sudo nano /opt/sonar-scanner/conf/sonar-scanner.properties
+   49  sonar-scanner   -Dsonar.projectKey=maven-web-application   -Dsonar.sources=.   -Dsonar.host.url=http://3.111.187.45:9000/
+   50    -Dsonar.login=sqa_5b6261402a6ca288ceb3a0ea2c35b6f980cd6412
+   51  clear
+   52  vi /var/lib/jenkins/workspace/CheckCodeQuality@tmp/durable-7065e9c7/script.sh
+   53  vi /var/lib/jenkins/workspace/CheckCodeQuality@tmp/
+   54  vi /var/lib/jenkins/workspace/
+   55  sudo chown -R jenkins:jenkins /var/lib/jenkins/workspace/CheckCodeQuality
+   56  sudo chmod -R 777 /var/lib/jenkins/workspace/CheckCodeQuality
+   57  sonar-scanner -Dsonar.projectKey=my_project -Dsonar.sources=.
+   58  sonar-scanner -Dsonar.projectKey=maven-web-application -Dsonar.sources=.
+   59  sonar-scanner
+   60  cd ~
+   61  df -h
+   62  sonar-scanner -v
+   63  ls /opt/sonar-scanner/bin/
+   64  export PATH=$PATH:/opt/sonar-scanner/bin
+   65  sonar-scanner -v
+   66  sudo nano /etc/profile
+   67  find /usr/lib/jvm/java-17* | head -n 3
+   68  sudo update-alternatives --config java
+   69  sonar-scanner -v
+   70  sudo nano /etc/profile
+   71  /opt/sonar-scanner/bin/sonar-scanner
+   72  history
