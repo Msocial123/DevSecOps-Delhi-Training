@@ -3,3 +3,10 @@ https://raw.githubusercontent.com/Msocial123/docker-install-commands/master/dock
 Install Docker using this shell scripting: 
 
 curl https://raw.githubusercontent.com/Msocial123/docker-install-commands/master/docker-install.sh | sudo bash
+
+chmod 777 /var/run/docker.sock
+
+
+Create a Container : 
+
+docker run -it --name my_container --memory=512m --cpus=1 ubuntu:latest
