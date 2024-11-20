@@ -13,3 +13,26 @@ chmod 777 /var/run/docker.sock
 Create a Container : 
 
 docker run -it --name my_container --memory=512m --cpus=1 ubuntu:latest
+
+
+Trivy Installation :
+
+    sudo yum update -y
+    sudo yum install wget gnupg -y
+    sudo rpm --import https://aquasecurity.github.io/trivy-repo/deb/public.key
+    sudo sh -c 'echo -e "[aquasecurity]\nname=Trivy Repository\nbaseurl=https://aquasecurity.github.io/trivy-repo/rpm/releases/$(uname -m)\ngpgcheck=1\nenabled=1" > /etc/yum.repos.d/trivy.repo'
+    sudo yum install trivy -y
+    trivy --version
+
+   Check the scanning :
+
+trivy image <image_name>
+trivy image --format table -o report.txt <image-name>
+trivy image --format json -o report.json <image-name>
+trivy image <image-name>
+trivy image --severity HIGH,CRITICAL <image-name>
+
+
+
+
+ENTRYPOINT ["java", "-jar", "api-gateway-1.0.0.RELEASE.jar"]
