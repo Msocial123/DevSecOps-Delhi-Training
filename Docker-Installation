@@ -1,0 +1,3 @@
+https://raw.githubusercontent.com/Msocial123/docker-install-commands/master/docker-install.sh
+
+curl https://raw.githubusercontent.com/Msocial123/docker-install-commands/master/docker-install.sh | sudo bash

@@ -143,6 +143,8 @@ Configuration Commands :
 
 
 
+
+
 trivy image --format table -o report.txt <image-name>
 trivy image --format json -o report.json <image-name>
 trivy image <image-name>
