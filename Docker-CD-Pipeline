@@ -1,8 +1,8 @@
 pipeline {
   agent any
-  parameters{
+  /*parameters{
         string(name: 'VERSION', description: 'Enter the APP VERSION')
-    }
+    } */
 environment{
         AWS_ACCOUNT_ID="390403858834"
         REGION="ap-south-1"
@@ -76,4 +76,52 @@ environment{
   
 
 }
+
+Image Scanning :
+
+stage('Trivy Image Scan') {
+  steps {
+     script {
+    //       //def dockerImage = "your-docker-image:tag" // Replace with your Docker image
+
+    //               // Run Trivy as a service to scan the image
+    sh """
+    //                  trivy image --scanners vuln devsecops-example:${VERSION}
+    //               """
+    //           }
+    //       }
+    // }  
+
+Use this below Code : 
+
+stage('Trivy Image Scan') {
+            steps {
+                sh 'trivy image --severity CRITICAL your-image-name:tag || true' // Run Trivy scan
+                sh 'trivy image --severity CRITICAL your-image-name:tag | grep "CRITICAL:" || true' // Display critical vulnerabilities
+                sh '[ "$(trivy image --severity CRITICAL your-image-name:tag | grep "CRITICAL:" | cut -d":" -f2 | tr -d " ")" -eq 0 ] || exit 1' // Fail if critical vulnerabilities exist
+            }
+        }
+
+##############################
+
+Deployment Stage :
+
+stage('Run Docker Container') {
+    steps {
+        script {
+            // Run the Docker Compose command
+            sh """
+            docker-compose up -d
+            """
+        }
+    }
+    post {
+        success {
+            echo "Docker container started successfully using Docker Compose."
+        }
+        failure {
+            echo "Failed to start the Docker container."
+        }
+    }
 }
+
