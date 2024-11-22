@@ -28,4 +28,5 @@ spec:
   ports:
   - port: 82
     targetPort: 80
+  type: LoadBalancer   
             
