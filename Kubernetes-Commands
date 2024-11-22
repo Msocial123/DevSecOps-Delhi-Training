@@ -2,3 +2,4 @@ kubectl create ns test-env
 kubectl get ns
 kubectl run test-pod --image muralisocial123/insurance-app-excelr:latest --port 80 
 kubectl get pods 
+kubectl run test-pod --image muralisocial123/insurance-app-excelr:latest --port 80 -n test-env 
