@@ -1,0 +1,17 @@
+apiVersion: apps/v1 
+kind: ReplicaSet
+metadata:
+  name: web-rs
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      key: web-app
+  template:
+    metadata:
+      labels:
+        key: web-app
+    spec:
+      containers:
+        - name: test-cont 
+          image: muralisocial123/insurance-app-excelr:latest
